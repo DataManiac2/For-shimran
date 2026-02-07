@@ -45,15 +45,47 @@ body {
 .char { display: inline-block; opacity: 0; animation: letterGlow 1.2s forwards; }
 @keyframes letterGlow { 0% { opacity: 0; filter: blur(10px); } 100% { opacity: 1; filter: blur(0); } }
 
-/* POLAROIDS */
+/* UNIFORM POLAROIDS - RESPONSIVE VERSION */
 .polaroid { 
-    position: fixed; background: #fff; padding: 10px 10px 35px 10px; 
-    box-shadow: 0 15px 35px rgba(0,0,0,0.8); transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1); 
-    width: 200px; height: 250px; z-index: 5; 
+    position: fixed; 
+    background: #fff; 
+    padding: 8px 8px 25px 8px; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.8); 
+    transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1); 
+    /* Default size for Desktop */
+    width: 200px; 
+    height: 250px; 
+    z-index: 5; 
 }
-.polaroid img { width: 180px; height: 180px; object-fit: cover; display: block; }
-.polaroid p { color: #333; font-family: 'Dancing Script', cursive; font-size: 0.95rem; margin-top: 10px; font-weight: bold; text-align: center; }
 
+.polaroid img { 
+    width: 100%; 
+    height: 180px; 
+    object-fit: cover; 
+    display: block; 
+}
+
+/* MOBILE FIX: When screen is narrow (phones) */
+@media (max-width: 600px) {
+    .polaroid {
+        width: 140px;  /* Shrinks the width */
+        height: 180px; /* Shrinks the height */
+        padding: 6px 6px 20px 6px;
+    }
+    .polaroid img {
+        height: 110px; /* Shrinks the image inside */
+    }
+    .polaroid p {
+        font-size: 0.75rem !important; /* Makes the caption text smaller */
+        margin-top: 5px;
+    }
+    h1 {
+        font-size: 2.2rem !important; /* Slightly smaller heading so it doesn't wrap weirdly */
+    }
+    .prose {
+        font-size: 1.05rem !important; /* Perfect reading size for mobile */
+    }
+}
 /* BOOK COVER */
 #book-cover { 
     position: fixed; top: 50%; left: 50%; width: 280px; height: 400px; 
@@ -268,4 +300,5 @@ for(let i=0; i<100; i++) {
 }
 </script>
 </body>
+
 </html>

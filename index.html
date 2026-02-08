@@ -15,6 +15,7 @@ body {
     background: radial-gradient(circle at top right, #0a0a0a 0%, #050000 50%, #1a0000 100%);
     color: #fff;
     height: 100vh; width: 100vw; overflow: hidden; touch-action: none;
+    transition: background 3s ease; /* Slower background transition */
 }
 
 /* GOLD TRAIL */
@@ -30,8 +31,8 @@ body {
 }
 
 /* MOON & STARS */
-.moon { position: fixed; top: 10px; right: 10px; width: 60px; height: 60px; background: #fffcf0; border-radius: 50%; box-shadow: 0 0 40px 10px rgba(255, 182, 193, 0.3); z-index: 1; transition: 4s; }
-.star { position: absolute; background: #fff; border-radius: 50%; z-index: 0; transition: 4s; }
+.moon { position: fixed; top: 10px; right: 10px; width: 60px; height: 60px; background: #fffcf0; border-radius: 50%; box-shadow: 0 0 40px 10px rgba(255, 182, 193, 0.3); z-index: 1; transition: 5s ease-in-out; }
+.star { position: absolute; background: #fff; border-radius: 50%; z-index: 0; transition: 5s ease-in-out; }
 
 /* TYPING & PROSE */
 .prose { 
@@ -45,19 +46,19 @@ body {
 .char { display: inline-block; opacity: 0; animation: letterGlow 1.2s forwards; }
 @keyframes letterGlow { 0% { opacity: 0; filter: blur(10px); } 100% { opacity: 1; filter: blur(0); } }
 
-/* POLAROIDS - ADDED OPACITY AND SCALE FOR TRANSITION */
+/* POLAROIDS - Added initial opacity 0 for transition */
 .polaroid { 
     position: fixed; background: #fff; padding: 10px 10px 30px 10px; 
-    box-shadow: 0 15px 35px rgba(0,0,0,0.8); transition: all 2s cubic-bezier(0.4, 0, 0.2, 1); 
-    width: 200px; height: 250px; z-index: 5; opacity: 0; transform: scale(0.5);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.8); 
+    transition: all 2s cubic-bezier(0.4, 0, 0.2, 1), opacity 2s ease-in-out; 
+    width: 200px; height: 250px; z-index: 5; opacity: 0; 
 }
-/* This class will be added via JS to trigger the fade-in */
-.polaroid.show { opacity: 1; transform: scale(1) rotate(var(--rot, 0deg)); }
+/* Trigger fade in when page is active */
+.active .polaroid { opacity: 1; }
 
 .polaroid img { width: 100%; height: 180px; object-fit: cover; display: block; }
 .polaroid p { color: #333; font-family: 'Dancing Script', cursive; font-size: 0.9rem; margin-top: 8px; font-weight: bold; text-align: center; }
 
-/* MOBILE FIX FOR POLAROIDS */
 @media (max-width: 600px) {
     .polaroid { width: 130px !important; height: 175px !important; padding: 6px 6px 22px 6px !important; }
     .polaroid img { height: 120px !important; }
@@ -77,11 +78,11 @@ body {
 /* INFINITY SYMBOL */
 #infinity-center { 
     position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
-    font-size: 10rem; color: #ff4b4b; opacity: 0; z-index: 1000; transition: 4s;
+    font-size: 10rem; color: #ff4b4b; opacity: 0; z-index: 1000; transition: 6s cubic-bezier(0.4, 0, 0.2, 1); 
 }
 
-/* ABYSS COLLAPSE */
-.collapse-all { transform: translate(-50%, -50%) scale(0) rotate(720deg) !important; opacity: 0 !important; filter: blur(40px) !important; }
+/* ABYSS COLLAPSE - Slower timing */
+.collapse-all { transform: translate(-50%, -50%) scale(0) rotate(720deg) !important; opacity: 0 !important; filter: blur(60px) !important; transition: all 5s ease-in-out !important; }
 
 /* UI */
 .page { position: absolute; inset: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: 1s; overflow: hidden; }
@@ -119,9 +120,9 @@ h1 { font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: #ff4b4b; 
 <div class="page" id="page2">
     <h1>Our Moments</h1>
     <div style="width:100%; height:250px; position:relative;">
-        <div class="polaroid" id="p1" style="left:5%; top:25%; --rot:-5deg;"><img src="img1.jpg"><p>The Start</p></div>
-        <div class="polaroid" id="p2" style="left:30%; top:25%; --rot:3deg;"><img src="img2.jpg"><p>Your Laugh</p></div>
-        <div class="polaroid" id="p3" style="left:55%; top:25%; --rot:-2deg;"><img src="img3.jpg"><p>Us Forever</p></div>
+        <div class="polaroid" id="p1" style="left:5%; top:25%; transform:rotate(-5deg);"><img src="img1.jpg"><p>The Start</p></div>
+        <div class="polaroid" id="p2" style="left:30%; top:25%; transform:rotate(3deg);"><img src="img2.jpg"><p>Your Laugh</p></div>
+        <div class="polaroid" id="p3" style="left:55%; top:25%; transform:rotate(-2deg);"><img src="img3.jpg"><p>Us Forever</p></div>
     </div>
     <button class="btn-nav" onclick="toPage(3)" style="margin-top:180px;">Go Deeper</button>
 </div>
@@ -168,16 +169,6 @@ function checkLock() {
 function toPage(num) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page' + num).classList.add('active');
-    
-    // Smoothly bring in polaroids on Page 2
-    if(num === 2) {
-        setTimeout(() => {
-            document.getElementById('p1').classList.add('show');
-            document.getElementById('p2').classList.add('show');
-            document.getElementById('p3').classList.add('show');
-        }, 500);
-    }
-
     const txtMap = {1:'text1', 3:'text2', 4:'text3', 5:'text4', 6:'text5', 7:'text6'};
     if(txtMap[num]) cinematicType(content[txtMap[num]], txtMap[num]);
 }
@@ -231,36 +222,36 @@ function celebrate() {
         const ph = [document.getElementById('p1'), document.getElementById('p2'), document.getElementById('p3')];
         ph.forEach(p => {
             document.body.appendChild(p);
-            // Re-set initial state for the fade-in from the 75% top (25th quartile bottom)
-            p.style.transition = "none";
-            p.style.opacity = "0";
-            p.style.transform = "scale(0.5)";
-            p.style.top = "75%";
+            p.style.opacity = "0"; // Reset for fresh fade in
         });
         
-        // Trigger smooth fade-in and slide
+        // Trigger smooth fade in from the bottom background
         setTimeout(() => {
-            ph[0].style.cssText = "left:2%; top:75%; transform:rotate(-15deg) scale(0.6); z-index:5; opacity:1; transition: all 3s ease;";
-            ph[1].style.cssText = "right:2%; top:75%; transform:rotate(15deg) scale(0.6); z-index:5; opacity:1; transition: all 3s ease;";
-            ph[2].style.cssText = "left:50%; top:75%; transform:translateX(-50%) scale(0.55); z-index:5; opacity:1; transition: all 3s ease;";
+            ph[0].style.cssText = "left:2%; top:75%; transform:rotate(-15deg) scale(0.6); z-index:5; opacity:1; transition: opacity 3s ease, top 3s ease, transform 3s ease;";
+            ph[1].style.cssText = "right:2%; top:75%; transform:rotate(15deg) scale(0.6); z-index:5; opacity:1; transition: opacity 3s ease, top 3s ease, transform 3s ease;";
+            ph[2].style.cssText = "left:50%; top:75%; transform:translateX(-50%) scale(0.55); z-index:5; opacity:1; transition: opacity 3s ease, top 3s ease, transform 3s ease;";
         }, 100);
 
         setTimeout(() => {
-            document.getElementById('vow-container').style.cssText = "transform: translateY(300px) scale(0); opacity: 0;";
+            // 1. Text collapse
+            document.getElementById('vow-container').style.cssText = "transform: translateY(300px) scale(0); opacity: 0; transition: 3s ease-in-out;";
 
             setTimeout(() => {
+                // 2. Image Transition to center
                 ph.forEach((p, i) => {
-                    p.style.transition = "all 1.2s ease-in-out"; 
+                    p.style.transition = "all 2s ease-in-out"; 
                     p.style.left = "50%"; p.style.top = "50%";
                     p.style.transform = `translate(-50%, -50%) scale(0.8) rotate(${i*10-10}deg)`;
                 });
 
                 setTimeout(() => {
+                    // 3. Close Book
                     ph.forEach(p => p.style.opacity = "0");
                     const cv = document.getElementById('book-cover');
                     cv.style.transform = "translate(-50%, -50%) rotateY(0deg)";
 
                     setTimeout(() => {
+                        // 4. Final Abyss (Slower timing for infinity and collapse)
                         const inf = document.getElementById('infinity-center');
                         const moon = document.getElementById('mainMoon');
                         const stars = document.querySelectorAll('.star');
@@ -268,18 +259,18 @@ function celebrate() {
                         inf.style.opacity = "1"; 
                         inf.style.transform = "translate(-50%, -50%) scale(1.5)";
                         
-                        moon.style.cssText = "top:50%; right:50%; transform:translate(50%, -50%) scale(0); opacity:0;";
-                        stars.forEach(s => { s.style.left = "50%"; s.style.top = "50%"; s.style.transform = "scale(0)"; });
+                        moon.style.cssText = "top:50%; right:50%; transform:translate(50%, -50%) scale(0); opacity:0; transition: 6s;";
+                        stars.forEach(s => { s.style.left = "50%"; s.style.top = "50%"; s.style.transform = "scale(0)"; s.style.transition = "6s"; });
                         cv.classList.add('collapse-all');
                         
                         setTimeout(() => {
                             inf.classList.add('collapse-all');
-                            setTimeout(() => { document.body.style.background = "#000"; }, 1500);
-                        }, 4000);
-                    }, 3000);
-                }, 2500);
-            }, 1200); 
-        }, 5000); 
+                            setTimeout(() => { document.body.style.background = "#000"; }, 2500);
+                        }, 5000);
+                    }, 3500);
+                }, 3000);
+            }, 1500); 
+        }, 6000); 
     }, 25000);
 }
 

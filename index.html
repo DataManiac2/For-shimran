@@ -29,14 +29,14 @@ body {
     100% { transform: scale(0); opacity: 0; transform: translateY(20px); }
 }
 
-/* MOON & STARS */
-.moon { position: fixed; top: 40px; right: 40px; width: 80px; height: 80px; background: #fffcf0; border-radius: 50%; box-shadow: 0 0 40px 10px rgba(255, 182, 193, 0.3); z-index: 1; transition: 4s; }
+/* MOON & STARS - MOVED TO ABSOLUTE CORNER */
+.moon { position: fixed; top: 10px; right: 10px; width: 60px; height: 60px; background: #fffcf0; border-radius: 50%; box-shadow: 0 0 40px 10px rgba(255, 182, 193, 0.3); z-index: 1; transition: 4s; }
 .star { position: absolute; background: #fff; border-radius: 50%; z-index: 0; transition: 4s; }
 
 /* TYPING & PROSE */
 .prose { 
     display: flex; flex-wrap: wrap; justify-content: center; gap: 0; 
-    font-size: clamp(0.9rem, 4.2vw, 1.3rem); line-height: 1.6; font-style: italic; 
+    font-size: clamp(1rem, 4.5vw, 1.3rem); line-height: 1.6; font-style: italic; 
     color: #f0f0f0; max-width: 90%; text-shadow: 0 0 15px rgba(0,0,0,0.8);
 }
 .sentence-wrapper { display: flex; flex-wrap: wrap; justify-content: center; width: 100%; opacity: 0; animation: lineFadeIn 2s forwards; }
@@ -49,20 +49,17 @@ body {
 .polaroid { 
     position: fixed; background: #fff; padding: 10px 10px 30px 10px; 
     box-shadow: 0 15px 35px rgba(0,0,0,0.8); transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1); 
-    width: 200px; height: 250px; z-index: 5; opacity: 0; transform: scale(0.8);
+    width: 200px; height: 250px; z-index: 5; 
 }
-.active .polaroid { opacity: 1; transform: scale(1) rotate(var(--rot)); }
 .polaroid img { width: 100%; height: 180px; object-fit: cover; display: block; }
 .polaroid p { color: #333; font-family: 'Dancing Script', cursive; font-size: 0.9rem; margin-top: 8px; font-weight: bold; text-align: center; }
 
 /* MOBILE FIX FOR POLAROIDS */
 @media (max-width: 600px) {
-    .polaroid { width: 110px !important; height: 150px !important; padding: 5px 5px 20px 5px !important; }
-    .polaroid img { height: 110px !important; }
-    .polaroid p { font-size: 0.6rem !important; margin-top: 4px !important; }
-    h1 { font-size: 1.8rem !important; }
-    .btn-nav { padding: 10px 25px !important; font-size: 0.9rem; }
-    .page2-container { height: 180px !important; }
+    .polaroid { width: 130px !important; height: 175px !important; padding: 6px 6px 22px 6px !important; }
+    .polaroid img { height: 120px !important; }
+    .polaroid p { font-size: 0.7rem !important; margin-top: 4px !important; }
+    h1 { font-size: 2.2rem !important; }
 }
 
 /* BOOK COVER */
@@ -77,7 +74,7 @@ body {
 /* INFINITY SYMBOL */
 #infinity-center { 
     position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
-    font-size: 8rem; color: #ff4b4b; opacity: 0; z-index: 1000; transition: 4s;
+    font-size: 10rem; color: #ff4b4b; opacity: 0; z-index: 1000; transition: 4s;
 }
 
 /* ABYSS COLLAPSE */
@@ -86,7 +83,7 @@ body {
 /* UI */
 .page { position: absolute; inset: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: 1s; overflow: hidden; }
 .page.active { opacity: 1; visibility: visible; }
-h1 { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: #ff4b4b; margin-bottom: 20px; text-align: center; }
+h1 { font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: #ff4b4b; margin-bottom: 20px; text-align: center; }
 .btn-nav { margin-top: 25px; padding: 12px 35px; border: 1px solid #ff4b4b; border-radius: 50px; background: rgba(0,0,0,0.5); color: #fff; cursor: pointer; z-index: 100; transition: transform 0.3s; }
 
 #lock-screen { position: fixed; inset: 0; background: #000; z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
@@ -110,23 +107,21 @@ h1 { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: #ff4b4b; 
 </audio>
 
 <div id="lock-screen">
-    <h2 style="font-family:'Dancing Script'; color:#ffbaba; margin-bottom:20px; font-size:1.5rem; text-align:center;">Instead of I am sorry, what do we say?</h2>
-    <input type="text" id="answerInput" placeholder="..." style="padding:15px; border-radius:30px; text-align:center; width:220px; border:1px solid #ff4b4b; background:transparent; color:#fff; outline:none; margin-bottom:20px;">
+    <h2 style="font-family:'Dancing Script'; color:#ffbaba; margin-bottom:20px; font-size:1.8rem; text-align:center;">Instead of I am sorry, what do we say?</h2>
+    <input type="text" id="answerInput" placeholder="..." style="padding:15px; border-radius:30px; text-align:center; width:250px; border:1px solid #ff4b4b; background:transparent; color:#fff; outline:none; margin-bottom:20px;">
     <button class="btn-nav" onclick="checkLock()" style="margin:0;">Unlock Our Story</button>
 </div>
 
 <div class="page" id="page1"><h1>The Beginning</h1><div class="prose" id="text1"></div><button class="btn-nav" onclick="toPage(2)">Next</button></div>
-
 <div class="page" id="page2">
     <h1>Our Moments</h1>
-    <div class="page2-container" style="width:100%; height:250px; position:relative; margin: 20px 0;">
-        <div class="polaroid" id="p1" style="left:5%; top:10%; --rot:-5deg;"><img src="img1.jpg"><p>The Start</p></div>
-        <div class="polaroid" id="p2" style="left:35%; top:20%; --rot:3deg;"><img src="img2.jpg"><p>Your Laugh</p></div>
-        <div class="polaroid" id="p3" style="left:65%; top:10%; --rot:-2deg;"><img src="img3.jpg"><p>Us Forever</p></div>
+    <div style="width:100%; height:250px; position:relative;">
+        <div class="polaroid" id="p1" style="left:5%; top:25%; transform:rotate(-5deg);"><img src="img1.jpg"><p>The Start</p></div>
+        <div class="polaroid" id="p2" style="left:30%; top:25%; transform:rotate(3deg);"><img src="img2.jpg"><p>Your Laugh</p></div>
+        <div class="polaroid" id="p3" style="left:55%; top:25%; transform:rotate(-2deg);"><img src="img3.jpg"><p>Us Forever</p></div>
     </div>
-    <button class="btn-nav" onclick="toPage(3)">Go Deeper</button>
+    <button class="btn-nav" onclick="toPage(3)" style="margin-top:180px;">Go Deeper</button>
 </div>
-
 <div class="page" id="page3"><h1>Deeply Connected</h1><div class="prose" id="text2"></div><button class="btn-nav" onclick="toPage(4)">My Vow</button></div>
 <div class="page" id="page4"><h1>My Promise</h1><div class="prose" id="text3"></div><button class="btn-nav" onclick="toPage(5)">Step Forward</button></div>
 <div class="page" id="page5"><h1>More than a Day</h1><div class="prose" id="text4"></div><button class="btn-nav" onclick="toPage(6)">Continue</button></div>
@@ -169,9 +164,7 @@ function checkLock() {
 
 function toPage(num) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    const target = document.getElementById('page' + num);
-    target.classList.add('active');
-    
+    document.getElementById('page' + num).classList.add('active');
     const txtMap = {1:'text1', 3:'text2', 4:'text3', 5:'text4', 6:'text5', 7:'text6'};
     if(txtMap[num]) cinematicType(content[txtMap[num]], txtMap[num]);
 }
@@ -201,6 +194,8 @@ function cinematicType(text, elementId) {
             sw.appendChild(ws); charCount++;
         });
         el.appendChild(sw);
+        el.appendChild(document.createElement("div")).className = "sentence-break";
+        charCount = 0;
     });
 }
 
@@ -217,38 +212,28 @@ function moveNo() {
 function celebrate() {
     document.getElementById('finalBtns').style.display = 'none';
     const finalVow = "In you, I’ve found my home, my peace, and my greatest strength. | From the trainer who taught me fitness, to the woman who taught me the true meaning of 'Sukoon'. | I promise to hold your hand through every chapter we write. | Our story is ∞. | — Always Yours, Bubu ❤️";
-    
-    // Start sentence unraveling
     cinematicType(finalVow, 'text6');
 
-    // Wait for sentences to unravel (approx 18-20 seconds based on word count)
-    // Then bring photos from the background
+    // Wait 22s for text unraveling + 3s extra delay as requested = 25s
     setTimeout(() => {
         const ph = [document.getElementById('p1'), document.getElementById('p2'), document.getElementById('p3')];
-        ph.forEach(p => {
-            document.body.appendChild(p);
-            p.style.opacity = "0";
-            p.style.display = "block";
-        });
+        ph.forEach(p => document.body.appendChild(p));
         
-        // Position photos elegantly in background framing the text
-        ph[0].style.cssText = "left:2%; top:10%; transform:rotate(-15deg) scale(0.6); z-index:1; opacity: 0.7; transition: 3s;";
-        ph[1].style.cssText = "right:2%; top:10%; transform:rotate(15deg) scale(0.6); z-index:1; opacity: 0.7; transition: 3s;";
-        ph[2].style.cssText = "left:50%; bottom:8%; transform:translateX(-50%) scale(0.55); z-index:1; opacity: 0.7; transition: 3s;";
+        // EMERGING FROM 25TH QUARTILE BOTTOM (75% TOP)
+        ph[0].style.cssText = "left:2%; top:75%; transform:rotate(-15deg) scale(0.6); z-index:5; opacity:1;";
+        ph[1].style.cssText = "right:2%; top:75%; transform:rotate(15deg) scale(0.6); z-index:5; opacity:1;";
+        ph[2].style.cssText = "left:50%; top:75%; transform:translateX(-50%) scale(0.55); z-index:5; opacity:1;";
 
-        // Begin final book sequence after photos have been seen for a few seconds
         setTimeout(() => {
             // 1. Text collapse
-            document.getElementById('vow-container').style.cssText = "transform: translateY(300px) scale(0); opacity: 0; transition: 2s;";
+            document.getElementById('vow-container').style.cssText = "transform: translateY(300px) scale(0); opacity: 0;";
 
             setTimeout(() => {
-                // 2. Fast Image Transition to center
+                // 2. Image Transition
                 ph.forEach((p, i) => {
                     p.style.transition = "all 1.2s ease-in-out"; 
                     p.style.left = "50%"; p.style.top = "50%";
                     p.style.transform = `translate(-50%, -50%) scale(0.8) rotate(${i*10-10}deg)`;
-                    p.style.opacity = "1";
-                    p.style.zIndex = "600";
                 });
 
                 setTimeout(() => {
@@ -277,8 +262,8 @@ function celebrate() {
                     }, 3000);
                 }, 2500);
             }, 1200); 
-        }, 8000); // Time she gets to see the text and photos together
-    }, 18000); // Time to wait for the vow text to finish typing
+        }, 5000); // Time to see the photos at the bottom before transition
+    }, 25000);
 }
 
 const starField = document.getElementById('star-field');
